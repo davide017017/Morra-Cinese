@@ -1,41 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Morra Cinese
 
-## Getting Started
+Un divertente gioco di Morra Cinese (Carta, Pietra, Forbici) sviluppato con Next.js e Tailwind CSS.
 
-First, run the development server:
+## Descrizione
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Questa applicazione web permette di giocare a Morra Cinese contro il computer. L'interfaccia è intuitiva e offre un'esperienza di gioco coinvolgente.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologie utilizzate
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*   **Next.js:** Framework React per il rendering lato server (SSR) e la generazione di siti statici (SSG), ottimizzando le prestazioni e la SEO.
+*   **React:** Libreria JavaScript per la creazione di interfacce utente dinamiche e interattive.
+*   **Tailwind CSS:** Framework CSS utility-first per uno sviluppo rapido e personalizzabile, senza la necessità di scrivere CSS personalizzato.
+*   **Font personalizzati:** Utilizzo di font Geist per un'estetica moderna e distintiva.
+*   **Responsive Design:** L'applicazione è progettata per adattarsi a diverse dimensioni di schermo, offrendo un'esperienza utente ottimale su   desktop, tablet e dispositivi mobili.
+*   **SEO di base:** Implementazione di meta tag e ottimizzazioni di base per migliorare la visibilità sui motori di ricerca.
+*   **Progressive Web App (PWA):** Supporto per PWA con file manifest per un'esperienza utente simile a un'app nativa.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Funzionalità
 
-## Learn More
+*   Gioca contro il computer.
+*   Interfaccia utente intuitiva e user-friendly.
+*   Design responsive per diverse dimensioni di schermo.
+*   Statistiche di gioco (vittorie, pareggi, sconfitte).
+*   Selezione del numero di round per la vittoria.
+*   Scelta dell'icona utente.
+*   Supporto per Progressive Web App (PWA).
 
-To learn more about Next.js, take a look at the following resources:
+## Installazione
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1.  Clona il repository:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    ```bash
+    git clone [https://github.com/tuo-username/morra-cinese.git](https://www.google.com/search?q=https://github.com/tuo-username/morra-cinese.git)
+    ```
 
-## Deploy on Vercel
+2.  Installa le dipendenze:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    cd morra-cinese
+    npm install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  Avvia l'applicazione:
 
+    ```bash
+    npm run dev
+    ```
 
-TODO
+## Come giocare
 
-da fix  - scoreboard  - favicon - SEO
+1.  Apri l'applicazione nel tuo browser.
+2.  Inserisci il tuo nome utente.
+3.  Seleziona un'icona.
+4.  Scegli il numero di round per vincere.
+5.  Clicca su "Inizia partita".
+6.  Seleziona la tua mossa (carta, pietra o forbici).
+7.  Il computer farà la sua mossa automaticamente.
+8.  Il risultato del round verrà visualizzato.
+9.  Continua a giocare finché non raggiungi il numero di round selezionato per la vittoria.
+
+## Struttura del codice
+
+*   `components/`: Contiene i componenti riutilizzabili dell'applicazione (es: `NumberRoundSelector`, `ConfirmationDialog`, `Footer`).
+*   `pages/`: Contiene le pagine dell'applicazione (es: `gioca.tsx`, `score.tsx`, `index.tsx`).
+*   `public/`: Contiene le risorse statiche (es: immagini, icone, file manifest).
+*   `styles/`: Contiene i file CSS globali (`globals.css`).
+*   `types/`: Contiene le definizioni dei tipi TypeScript.
+*   `utils/`: Contiene le funzioni di utilità (es: `gameLogic.ts`).
+
+## Tecniche di coding rilevanti
+
+*   **Gestione dello stato con React Hooks:** Utilizzo di `useState` per gestire lo stato dei componenti e aggiornare l'interfaccia utente in modo reattivo.
+*   **Rendering condizionale:** Utilizzo di rendering condizionale per mostrare o nascondere elementi dell'interfaccia utente in base allo stato dell'applicazione.
+*   **Comunicazione tra componenti:** Passaggio di props e utilizzo di callback per la comunicazione tra componenti.
+*   **Utilizzo di Next.js per ottimizzare le prestazioni:** Implementazione di tecniche di ottimizzazione come il precaricamento delle pagine e l'utilizzo di immagini ottimizzate.
+*   **Stilizzazione con Tailwind CSS:** Utilizzo di classi utility per una stilizzazione rapida e personalizzabile.
+*   **Implementazione del pattern di "toggle" per i bottoni:** Utilizzo di classi condizionali per cambiare l'aspetto dei bottoni in base al loro stato (selezionato/non selezionato).
+
+## Miglioramenti futuri
+
+*   Implementazione di un sistema di autenticazione per salvare i punteggi degli utenti.
+*   Integrazione con un database per la gestione dei punteggi.
+*   Aggiunta di animazioni e transizioni per migliorare l'esperienza utente.
+*   Implementazione di test unitari e di integrazione.
+
+## Autore
+
+davide017017
+
+## Licenza
+
+[La tua licenza]
