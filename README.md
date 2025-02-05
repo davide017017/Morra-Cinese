@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b870311d-eeed-4a7c-9720-17c092d2d1e6/deploy-status)](https://app.netlify.com/sites/morra-cinese-davide017017/deploys)
+
 # Morra Cinese
 
 Un divertente gioco di Morra Cinese (Carta, Pietra, Forbici) sviluppato con Next.js e Tailwind CSS.
