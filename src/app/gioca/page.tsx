@@ -1,27 +1,28 @@
+// app/gioca/page.tsx
 'use client';
 
 import { availableIcons } from '../data';
-import React, { useState } from 'react';
-import { FaHome, FaPlayCircle, FaRedo, FaUser } from 'react-icons/fa'; 
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { FaHome, FaPlayCircle, FaRedo, FaUser, FaSave, } from 'react-icons/fa';
 import { GiRock, GiPaper, GiScissors } from 'react-icons/gi';
 import { getComputerChoice, playRound } from '../utils/gameLogic';
 import IconSelector from '../components/IconSelector';
-import { Scelta } from '../types/types';
-import InputNomeUtente from '../components/InputNomeUtente';
-import BottoniGame from '../components/BottoniGame';
-import RisultatoRound from '../components/RisultatoRound';
-import RisultatoGame from '../components/RisultatoGame';
+import { Choices } from '../types/types';
+import InputNomeUtente from '../components/InputUserName';
+import ButtonsGame from '../components/ButtonsGame';
+import RisultatoRound from '../components/ResultRound';
+import RisultatoGame from '../components/ResultGame';
 import EndGameMessage from '../components/EndGameMessage';
+import ConfirmationDialog from '../components/ConfirmationDialog';
+import NumberRoundSelector from '../components/NumberRoundSelector';
 
-export const choiceToIcon = {
-    carta: <GiPaper className="text-5xl text-gray-700 mb-2" />,
-    pietra: <GiRock className="text-5xl text-gray-700 mb-2" />,
-    forbici: <GiScissors className="text-5xl text-gray-700 mb-2" />,
-};
 
 const Gioca: React.FC = () => {
-    const [playerChoice, setPlayerChoice] = useState<Scelta | null>(null);
-    const [computerChoice, setComputerChoice] = useState<Scelta | null>(null);
+    const router = useRouter();
+
+    const [playerChoice, setPlayerChoice] = useState<Choices | null>(null);
+    const [computerChoice, setComputerChoice] = useState<Choices | null>(null);
     const [roundResult, setRoundResult] = useState<string | null>(null);
     const [playerScore, setPlayerScore] = useState(0);
     const [computerScore, setComputerScore] = useState(0);
@@ -34,9 +35,50 @@ const Gioca: React.FC = () => {
     const [isNameValid, setIsNameValid] = useState(false);
     const [endGameMessage, setEndGameMessage] = useState<string | null>(null);
     const [isWin, setIsWin] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
+    const [numRound, setNumRound] = useState<number | null>(null);
+
+    const [confirmationType, setConfirmationType] = useState<'mainMenu' | 'reset' | 'character' | null>(null);
+
+    const showConfirmationDialog = (type: 'mainMenu' | 'reset' | 'character') => {
+        setConfirmationType(type);
+        setShowConfirmation(true);
+    };
+    const handleConfirm = () => {
+        setShowConfirmation(false);
+        switch (confirmationType) {
+            case 'mainMenu':
+                router.push('/');
+                break;
+            case 'reset':
+                restartConfirm();
+                break;
+            case 'character':
+                returnToCharacterSelection();
+                break;
+            default:
+                break;
+        }
+        setConfirmationType(null); 
+    };
+
+    const handleCancel = () => {
+        setShowConfirmation(false);
+        setConfirmationType(null); 
+    };
+
+    useEffect(() => {
+        if (numRound !== null && (playerScore >= numRound || computerScore >= numRound)) {
+            setEndGameMessage(playerScore >= numRound ? "Hai vinto la partita!" : "Hai perso la partita!");
+            setIsWin(playerScore >= numRound);
+            setShowMessage(true);
+            }
+    }, [playerScore, computerScore, numRound]); 
+
 
     const handleStartGameClick = () => {
-        if (isNameValid) {
+        if (isNameValid ) { 
             startGame();
         }
     };
@@ -46,6 +88,10 @@ const Gioca: React.FC = () => {
         setIsNameValid(isValid);
     };
 
+    const handleNumRoundSelect = (round: number | null) => {
+        setNumRound(round);
+    };
+
     const startGame = () => {
         setInGame(true);
         setPlayerScore(0);
@@ -53,11 +99,11 @@ const Gioca: React.FC = () => {
         setPlayerChoice(null);
         setComputerChoice(null);
         setRoundResult(null);
-        setEndGameMessage(null); // Reset del messaggio di fine partita
-        setIsWin(false); // Reset di isWin
+        setEndGameMessage(null); 
+        setIsWin(false); 
     };
 
-    const handleChoice = (choice: Scelta) => {
+    const handleChoice = (choice: Choices) => {
         setPlayerChoice(choice);
         const compChoice = getComputerChoice();
         setComputerChoice(compChoice);
@@ -73,21 +119,6 @@ const Gioca: React.FC = () => {
         } else if (result === 'Pareggio!') {
             setPareggi((prevPareggi) => prevPareggi + 1);
         }
-
-        if (playerScore >= 10) { // Punteggio di vittoria
-            setEndGameMessage("Hai vinto la partita!");
-            setIsWin(true);
-            setInGame(false);
-        } else if (computerScore >= 10) { // Punteggio di sconfitta
-            setEndGameMessage("Hai perso la partita!");
-            setIsWin(false);
-            setInGame(false);
-        }
-    };
-
-    const calculatePercentage = (count: number): string => {
-        const total = vittorie + pareggi + sconfitte;
-        return total === 0 ? '0%' : `${Math.round((count / total) * 100)}%`;
     };
 
     const resetGame = () => {
@@ -100,36 +131,50 @@ const Gioca: React.FC = () => {
         setPareggi(0);
         setSconfitte(0);
     };
-
-    const returnToCharacterSelection = () => {
-        setInGame(false);
-        setPlayerScore(0);
-        setComputerScore(0);
-        setPlayerChoice(null);
-        setComputerChoice(null);
-        setRoundResult(null);
-        setEndGameMessage(null);
-        setIsWin(false);
+    
+    const restartConfirm = () => {
+        resetGame(); 
+        setEndGameMessage(null); 
     };
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const returnToCharacterSelection = () => {
+        resetGame();
+        setIsWin(false);
+        setEndGameMessage(null);
+        setInGame(false);
+    };
 
+    const handleConfirmMainMenu = () => {
+        setShowConfirmation(false); 
+        router.push('/'); 
+    };
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return (
         <div className="flex flex-col items-center font-sans min-h-screen bg-gradient-to-b from-amber-100 to-orange-100 px-4 py-8 md:px-8 md:py-12">
             <h2 className="text-4xl md:text-5xl font-extrabold mb-8 md:mb-12 text-gray-800 drop-shadow-lg text-center">
                 Morra Cinese
             </h2>
-
-            {!inGame && endGameMessage && (
-                <EndGameMessage message={endGameMessage} isWin={isWin} onReset={startGame} />
+    
+            {showMessage && endGameMessage && (
+                <EndGameMessage
+                    message={endGameMessage}
+                    isWin={isWin}
+                    onReset={restartConfirm}
+                    onReturnToMenu={handleConfirmMainMenu}
+                />
             )}
-
+    
             {!inGame ? (
                 <div className="flex flex-col items-center w-full">
                     <InputNomeUtente onNameChange={handleNameChange} onEnter={handleStartGameClick} />
                     <IconSelector icons={availableIcons} selectedIcon={selectedIcon} onIconSelect={setSelectedIcon} />
-
+                    <NumberRoundSelector 
+                        onSelect={handleNumRoundSelect}
+                        initialRound={numRound} 
+                    />
                     <button
                         onClick={handleStartGameClick}
                         disabled={!isNameValid}
@@ -149,50 +194,69 @@ const Gioca: React.FC = () => {
                         </div>
                         <span className="text-lg md:text-xl">Inizia Partita</span>
                     </button>
+                    <button
+                        onClick={() => { window.location.href = "/"; }}
+                        className="m-6 bg-gray-400 hover:bg-gray-500 text-gray-800 font-bold py-2 px-4 rounded-md text-sm flex items-center"
+                    >
+                    <FaHome className="mr-2" /> Menu Principale
+                    </button>
                 </div>
             ) : (
                 <div className="bg-white p-2 sm:p-10 rounded-3xl transition duration-500 ease-in-out transform hover:scale-102 active:scale-100 w-full max-w-md">
-                    <BottoniGame handleChoice={handleChoice} />
-                        {playerChoice && <RisultatoRound playerChoice={playerChoice} computerChoice={computerChoice} roundResult={roundResult} />}
+                    <ButtonsGame handleChoice={handleChoice} />
+                    {playerChoice && <RisultatoRound playerChoice={playerChoice} computerChoice={computerChoice} roundResult={roundResult} />}
                     <RisultatoGame
                         playerScore={playerScore}
                         computerScore={computerScore}
                         vittorie={vittorie}
                         pareggi={pareggi}
                         sconfitte={sconfitte}
-                        endGameMessage={endGameMessage}
-                        resetGame={resetGame}
-                        calculatePercentage={calculatePercentage}
                         selectedIcon={selectedIcon}
                         userName={userName}
+                        numRound={numRound} 
                     />
-                    <div className="mt-4 flex justify-between items-center  gap-2"> {/* Contenitore per i bottoni */}
-                        <div className="flex flex-col"> {/* Contenitore per i bottoni a sinistra */}
-                        <button
-                            onClick={returnToCharacterSelection}
-                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md text-sm mb-2 flex items-center" // Aggiunto mb-2 e flex items-center
-                        >
-                            <FaUser className="mr-2" /> Selezione Personaggio {/* Icona a sinistra del testo */}
-                        </button>
-                        <button
-                            onClick={returnToCharacterSelection}
-                            className="bg-gray-400 hover:bg-gray-500 text-gray-800 font-bold py-2 px-4 rounded-md text-sm flex items-center" // Aggiunto flex items-center
-                        >
-                            <FaHome className="mr-2" /> Menu Principale {/* Icona a sinistra del testo */}
-                        </button>
+                    <div className="mt-4 flex justify-between items-center  gap-2">
+                        <div className="flex flex-col  gap-2">
+                            <button
+                                onClick={() => showConfirmationDialog('character')}
+                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md text-sm mb-2 flex items-center"
+                            >
+                                <FaUser className="mr-2" /> Selezione Personaggio
+                            </button>
+                            <button
+                                onClick={() => showConfirmationDialog('mainMenu')}
+                                className="bg-gray-400 hover:bg-gray-500 text-gray-800 font-bold py-2 px-4 rounded-md text-sm flex items-center"
+                            >
+                                <FaHome className="mr-2" /> Menu Principale
+                            </button>
                         </div>
-                        <button
-                        onClick={resetGame}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md text-sm flex items-center" // Cambiato colore e aggiunto flex items-center
-                        >
-                            <FaRedo className="mr-2" /> Reset Game {/* Icona a sinistra del testo */}
-                        </button>
+                        <div className="flex flex-col gap-2 ">
+                            <button
+                                onClick={() => showConfirmationDialog('reset')}
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md text-sm flex items-center"
+                            >
+                                <FaRedo className="mr-2" /> Reset Game
+                            </button>
+                        </div>
+                        {showConfirmation && (
+                            <ConfirmationDialog
+                                message={
+                                    confirmationType === 'mainMenu'
+                                        ? `Sei sicuro di voler uscire e tornare al Menu principale?`
+                                        : confirmationType === 'reset'
+                                        ? `Sei sicuro di voler resettare la partita?`
+                                        : `Sei sicuro di voler tornare alla selezione del personaggio?`
+                                }
+                                secondaryMessage="I progressi di questa partita andranno persi."
+                                onConfirm={handleConfirm}
+                                onCancel={handleCancel}
+                            />
+                        )}
                     </div>
                 </div>
-                
             )}
         </div>
-    );
+    )
 };
 
 export default Gioca;

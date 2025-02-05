@@ -1,12 +1,10 @@
-// components/BottoniGame.tsx
+// app/components/ButtonsGame.tsx
+
 import React from 'react';
 import { GiRock, GiPaper, GiScissors } from 'react-icons/gi';
-import { Scelta } from '../types/types'; 
+import { PropsButtonGame, } from '../types/types'; 
 
-interface Props {
-    handleChoice: (choice: Scelta) => void; 
-}
-const BottoniGame: React.FC<Props> = ({ handleChoice }) => {
+const ButtonsGame: React.FC<PropsButtonGame> = ({ handleChoice }) => {
     return (
         <div className="flex flex-row md:flex-row gap-4 md:gap-12 mb-6 justify-center">
             <button
@@ -38,4 +36,4 @@ const BottoniGame: React.FC<Props> = ({ handleChoice }) => {
     );
 };
 
-export default BottoniGame;
+export default ButtonsGame;

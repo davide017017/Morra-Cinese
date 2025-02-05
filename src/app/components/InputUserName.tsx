@@ -1,29 +1,25 @@
-// components/InputNomeUtente.tsx
+// app/components/InputUserName.tsx
+
 import React, { useState, useEffect } from 'react';
 import { FaUser } from 'react-icons/fa';
+import { PropsInputUserName } from '../types/types';
 
-interface Props {
-  onNameChange: (name: string, isValid: boolean) => void; // Add isValid parameter
-  onEnter: () => void;
-}
-
-const InputNomeUtente: React.FC<Props> = ({ onNameChange, onEnter }) => {
+const InputUserName: React.FC<PropsInputUserName> = ({ onNameChange, onEnter }) => {
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isValid, setIsValid] = useState(false); // New state for validity
+  const [isValid, setIsValid] = useState(false); 
 
   useEffect(() => {
-    // Update parent component with name and validity
     onNameChange(inputValue, isValid);
-  }, [inputValue, isValid, onNameChange]); // Add onNameChange to dependency array
+  }, [inputValue, isValid, onNameChange]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
 
     const isValidName = value.length >= 3 && value.length <= 20;
-    setIsValid(isValidName); // Update isValid state
+    setIsValid(isValidName);
 
     if (!isValidName) {
       setErrorMessage("Il nome deve avere tra 3 e 20 caratteri.");
@@ -33,7 +29,7 @@ const InputNomeUtente: React.FC<Props> = ({ onNameChange, onEnter }) => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && isValid) { // Check isValid before onEnter
+    if (event.key === 'Enter' && isValid) { 
       onEnter();
     }
   };
@@ -51,7 +47,9 @@ const InputNomeUtente: React.FC<Props> = ({ onNameChange, onEnter }) => {
   };
 
   const inputClassName = `text-center border ${
-    errorMessage ? 'border-red-500 focus:ring-2 focus:ring-red-200 focus:shadow-lg focus:shadow-red-500' : (inputValue || isFocused ? 'border-green-500 focus:ring-2 focus:ring-green-200 focus:shadow-lg focus:shadow-green-500' : 'border-gray-300 focus:ring-2 focus:ring-blue-200 focus:shadow-lg focus:shadow-blue-500')
+    errorMessage ? 'border-red-500 focus:ring-2 focus:ring-red-200 focus:shadow-lg focus:shadow-red-500'
+      : (inputValue || isFocused ? 'border-green-500 focus:ring-2 focus:ring-green-200 focus:shadow-lg focus:shadow-green-500' 
+      : 'border-gray-300 focus:ring-2 focus:ring-blue-200 focus:shadow-lg focus:shadow-blue-500')
   } rounded-lg px-9 py-3 focus:outline-none bg-gradient-to-l from-amber-100 to-white placeholder-gray-500 transition duration-300 shadow-sm w-full`;
 
   return (
@@ -78,4 +76,4 @@ const InputNomeUtente: React.FC<Props> = ({ onNameChange, onEnter }) => {
   );
 };
 
-export default InputNomeUtente;
+export default InputUserName;

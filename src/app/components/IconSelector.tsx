@@ -1,13 +1,9 @@
+// app/components/IconSelector.tsx
+
 import Image from 'next/image';
-import { IconData } from '../types/types';
+import { PropsIconSelector } from '../types/types';
 
-interface Props {
-    icons: IconData[];
-    selectedIcon: IconData;
-    onIconSelect: (icon: IconData) => void;
-}
-
-const IconSelector: React.FC<Props> = ({ icons, selectedIcon, onIconSelect }) => {
+const IconSelector: React.FC<PropsIconSelector> = ({ icons, selectedIcon, onIconSelect }) => {
     return (
         <div className="flex flex-wrap justify-center gap-4 p-8">
             {icons.map((icon) => (

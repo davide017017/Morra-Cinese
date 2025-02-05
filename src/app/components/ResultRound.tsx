@@ -1,14 +1,16 @@
-// components/RisultatoRound.tsx
-import React from 'react';
-import { Scelta } from '../types/types'; 
-import { choiceToIcon } from '../gioca/page';
+// app/components/ResultRound.tsx
 
-interface Props {
-    playerChoice: Scelta | null;
-    computerChoice: Scelta | null;
-    roundResult: string | null;
-}
-const RisultatoRound: React.FC<Props> = ({ playerChoice, computerChoice, roundResult }) => {
+import React from 'react';
+import { GiRock, GiPaper, GiScissors } from 'react-icons/gi';
+import { PropsResultRound } from '../types/types'; 
+
+const choiceToIcon = {
+    carta: <GiPaper className="text-5xl text-gray-700 mb-2" />,
+    pietra: <GiRock className="text-5xl text-gray-700 mb-2" />,
+    forbici: <GiScissors className="text-5xl text-gray-700 mb-2" />,
+};
+
+const ResultRound: React.FC<PropsResultRound> = ({ playerChoice, computerChoice, roundResult }) => {
     if (!playerChoice || !computerChoice || !roundResult) {
         return null; 
     }
@@ -45,4 +47,4 @@ const RisultatoRound: React.FC<Props> = ({ playerChoice, computerChoice, roundRe
     );
 };
 
-export default RisultatoRound;
+export default ResultRound;

@@ -1,4 +1,5 @@
 // app/components/Footer.tsx
+
 import React from 'react';
 import { FaGithub, FaBriefcase } from 'react-icons/fa';
 
@@ -12,17 +13,17 @@ const Footer: React.FC = () => {
           <div className="flex items-center justify-center space-x-6 mb-2">
             <a
               href="https://davide-martinico-portfolio.netlify.app/"
-              className="text-gray-700 hover:text-green-800 flex items-center transition duration-300 hover:scale-105 active:scale-95 group" // Added "group" class
+              className="text-gray-700 hover:text-green-800 flex items-center transition duration-300 hover:scale-105 active:scale-95 group" 
             >
-              <FaBriefcase className="mr-2 text-gray-600 group-hover:text-green-800" size={18} /> Portfolio {/* Modified icon color change */}
+              <FaBriefcase className="mr-2 text-gray-600 group-hover:text-green-800" size={18} /> Portfolio 
             </a>
             <a
               href="https://github.com/davide017017"
-              className="text-gray-700 hover:text-green-800 flex items-center transition duration-300 hover:scale-105 active:scale-95 group" // Added "group" class
+              className="text-gray-700 hover:text-green-800 flex items-center transition duration-300 hover:scale-105 active:scale-95 group" 
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaGithub className="mr-2 text-gray-600 group-hover:text-green-800" size={18} /> GitHub {/* Modified icon color change */}
+              <FaGithub className="mr-2 text-gray-600 group-hover:text-green-800" size={18} /> GitHub 
             </a>
           </div>
           <div className="flex items-center justify-center">
