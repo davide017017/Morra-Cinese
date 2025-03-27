@@ -10,7 +10,7 @@
 
 **Demo Online:** [Link alla tua applicazione online](https://morra-cinese-davide017017.netlify.app/)
 
-![Screenshot della App Morra-Cinese ](src\app\imageSite.JPG)
+![Screenshot della App Morra-Cinese ](src/app/imageSite.JPG)
 
 ## ✨ Descrizione
 
